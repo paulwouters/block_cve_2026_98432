@@ -75,6 +75,26 @@ sudo python3 verify_xdp_filter.py 192.168.1.1 80
 
 ```
 
+A vulnerable machine looks like:
+
+```
+# python verify_xdp_filter.py 127.0.0.1 22
+/usr/lib/python3.15/site-packages/scapy/layers/tls/crypto/groups.py:25: CryptographyDeprecationWarning: Diffie-Hellman over finite fields (FFDH) is deprecated and support will be removed in a future release. Use a more modern key exchange algorithm.
+  from cryptography.hazmat.primitives.asymmetric.dh import DHParameterNumbers
+[*] Target: 127.0.0.1:22
+
+[+] 1. Sending baseline TCP SYN (ihl = 5, no IP options)...
+    [PASS] Received response: TCP flags [SA] (Host is reachable)
+
+[+] 2. Sending TCP SYN with IPv4 options (ihl = 6)...
+    Crafted IP Header Length: 24 bytes (ihl=6)
+
+[RESULT] FAILURE: Received reply: TCP flags [SA].
+         The packet reached the TCP stack! The XDP filter is NOT active on the ingress path.
+
+```
+
+
 # Remove it
 
 ```
